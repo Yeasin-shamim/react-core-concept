@@ -1,109 +1,49 @@
-import { useEffect, useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './App.css';
 
-function App() {
-  const arra = ["shamim", "Yeasin", "sayma", "fardaus"]
-  const products = [
-    {name: 'Photoshop', price: '$90.08'}, 
-    {name: 'Ilistarator', price: '$80.9'}, 
-    {name: 'PDF reader', price: '$10'},
-    {name: 'Premium pro', price: '$120'}
-  ]
-  
-  return (
-    <div className="App">
-      <header className="App-header"> 
-      <p>I am a react person</p>
-      <Count></Count>
-      <UserData></UserData>
-        <div>
-          <ul>
-            {
-              arra.map(nayok => <li>{nayok}</li>)
-            }
-            {
-              products.map(product => <li>{product.name}</li>)
-            }
-          </ul>
-          {
-            products.map(produ => <Product product ={produ}></Product>)
-          }
-          </div>
-          <Person name = {arra[1]}  nayika = "Shabnur"></Person>
-          <Person name = "Hafiz al" nayika = "Shabana"></Person>
-          <Person name = "Shamim" nayika = "Sayma"></Person> 
-      </header>
-    </div>
-  );
-}
-function UserData(){
-  const [users, setUser] = useState([]);
+function App() { 
+  const [userrrrr, setUser] = useState([])
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(res => res.json())
     .then(data => setUser(data));
-  }, [])
+  }, []) 
   return (
-    <div>
-      <h3>Dynamic user: {users.length}</h3>
-      <ul>
-        {
-          users.map(user => <li>{user.name}</li>)
-        }
-      </ul>
-      
+    <div className="App">
+      <MovieCount></MovieCount>
+      {
+        userrrrr.map(users => <UserData name={users.name} email={users.email}></UserData>)
+      }
+      <header className="App-header">
+      </header>
     </div>
   );
 }
-
-function Count(){
-  const [count, setCount] = useState(10);
-  
+function UserData(props){
   return (
-    <div>
-      <h1>Count: {count}</h1>
-      <button onClick={() => setCount(count + 1)}>Click Me</button>
-      <button onMouseLeave={() => setCount(count - 1)}>Decriease</button>
-    </div>
-  )
-  }
-
-
-
-function Product(props){
-  const style = {
-    border: '1px solid gray',
-    borderRadius: '5px',
-    backgroundColor: 'green',
-    color: 'black',
-    boxShadow: '-3px -3px 15px white',
-    padding: '20px',
-    height: '200px',
-    width: '200px',
-    margin: '20px'
-  }
-const {name, price} = props.product;
-  return (
-    <div style = {style}>
-      <h3>{name}</h3>
-      <h5>{price}</h5>
-      <button>Buy now</button>
+    <div style={{border:'2px solid cyan', margin: '20px'}}>
+      <h2>User Name: {props.name}</h2>
+      <h5>User Email: {props.email}</h5>
     </div>
   )
 }
-function Person(props){
-  const style = {
-    border: '2px solid red',
-    margin: '10px',
-    boxShadow: '(-5px 5px) (-5px 5px) 10px white',
-    width: '400px'
-  }
+
+function MovieCount(){
+  const [count, setCount] = useState(1);
+  const handleClick = () => setCount(count + 1);
   return (
-    <div style = {style}>
-      <h1>Nayok: {props.name}</h1>
-      <h4>Hero of {props.nayika}</h4>
+    <div>
+      <button onClick= {handleClick}>Add Movie</button>
+      <h3>Total movie:{count} </h3>
+      <MovieDisplay movie= {count}></MovieDisplay>
+      <MovieDisplay movie= {count + 5}></MovieDisplay>
+      <MovieDisplay movie= {count + 10}></MovieDisplay>
+      <MovieDisplay movie= {count + 3}></MovieDisplay>
     </div>
-  );
+  )
+}
+function MovieDisplay(props){
+  return <h3>Movies i have acted:{props.movie} </h3>
 }
 
 export default App;
